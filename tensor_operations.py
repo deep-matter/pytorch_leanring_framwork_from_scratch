@@ -24,10 +24,11 @@ class EmptyOut:
 
 
 # # additional two 1D matrix
-tensor_x = torch.tensor([1, 2, 3])
-tensor_y = torch.tensor([1, 5, 4])
+tensor_x = torch.rand(2,2)
+tensor_y = torch.rand(2,2)
 
-# outs=torch.add(tensor_x,tensor_y)
+outs=torch.mul(tensor_x,tensor_y)
+print(outs)
 # empty_tensor=EmptyOut(outs)
 
 # # multiplicatio 1D tensor
@@ -50,44 +51,57 @@ tensor_y = torch.tensor([1, 5, 4])
 # # matrices multiplications 
 # ###################
 
-matrix_x=torch.rand(3,3)
-matrix_y=torch.empty(3,3).uniform_(1,2)
-mul_matrix=torch.mm(matrix_x,matrix_y)
-results_add=EmptyOut((3,3),mul_matrix)
-#results_add.dim_n((3,3))
+# matrix_x=torch.rand(3,3)
+# matrix_y=torch.empty(3,3).uniform_(1,2)
+# mul_matrix=torch.mm(matrix_x,matrix_y)
+# results_add=EmptyOut((3,3),mul_matrix)
+# results_add.dim_n((3,3))
 
 ##########
 # exponotional matrix 
 ##########
-dot_product=torch.dot(tensor_x,tensor_y)
-print(dot_product)
-power_matrix = torch.matrix_power(matrix_x, 2)
+# dot_product=torch.dot(tensor_x,tensor_y)
+# print(dot_product)
+# power_matrix = torch.matrix_power(matrix_x, 2)
 
-results_pow=EmptyOut((3,3),power_matrix)
-results_pow.dim_n((3,3))
+# results_pow=EmptyOut((3,3),power_matrix)
+# results_pow.dim_n((3,3))
 
 #print(results)
 ################
 ## batch mul matrices 
 #################
-batchs=2
-n=2
-m=4
-p=2
-ax =plt.axes(projection='3d')
-batch_1=torch.rand(batchs,n,m)####[32,12,36]
-batch_2=torch.rand(batchs,n,m)
-#z = np.sin(torch.add(batch_1,batch_2))
+# batchs=2
+# n=2
+# m=4
+# p=2
+# ax =plt.axes(projection='3d')
+# batch_1=torch.rand(batchs,n,m)####[32,12,36]
+# batch_2=torch.rand(batchs,n,m)
+# z = np.sin(torch.add(batch_1,batch_2))
 
-X ,Y = np.meshgrid(batch_1,batch_2)
+# X ,Y = np.meshgrid(batch_1,batch_2)
 
-Z = np.sin(X) * np.cos(Y) 
+# Z = np.sin(X) * np.cos(Y) 
 # z =torch.bmm(batch_1, batch_2)  
 # print(z.shape)
 
-ax.plot_surface(X,Y,Z,color='red',alpha=0.5)
-plt.show()
+# ax.plot_surface(X,Y,Z,color='red',alpha=0.5)
+# plt.show()
 
 #z =torch.bmm(batch_1, batch_2)  
 # print(z.size())
 # z.size()
+##################
+# Other operations
+###################
+
+#sum_x_and_y=torch.sum(batch_1,dim=0)
+# sum_col=torch.mean(tensor_x.float(),dim=0)
+# sorted_tensor,indices=torch.sort(tensor_x,dim=0 ,descending=False)
+# clamp_t=torch.clamp(tensor_x,min=2,max=3)
+# print(clamp_t)
+# print(sorted_tensor)
+# print(sum_col)
+# value, index = torch.argmax(batch_2,dim=0)
+# print(value, index )
