@@ -12,16 +12,15 @@
             
              
         ```python
-
+        
             import troch 
 
             x = torch.tensor([1,5,6]) ## this tensor is 1D
             print(x.ndimesions())
             print(x.shapoe)
             #########
-            # troch.tensor() has some methods associated with it based on class 
-            such :
-            .shapa # gives the dimessions features of tensor
+            # troch.tensor() has some methods associated with it based on class  such :
+            .shape() # gives the dimessions features of tensor
             .size() # size of tensor
             #########
             print(type(x))
