@@ -9,7 +9,10 @@
         tensors are just other format of intialize the matrcies in mulit-dimessions 
         and gives more flexibility to implement different analysis and calculs approchs 
 
-            '''python
+            
+             
+        ```python
+
             import troch 
 
             x = torch.tensor([1,5,6]) ## this tensor is 1D
@@ -25,5 +28,8 @@
             n=2 ; m=3 ; p=3 ## demissions 
             ## here this method is create random data point in 2D 
             y=troch.rand(n,m,size(2,3))
-            empty_tensor=torch.empty(size(n,m,p),out=outs)## this instaince empty Object tensor 
-            '''  
+            ## this instaince empty Object tensor 
+            empty_tensor=torch.empty(size(n,m,p),out=outs)
+        ```
+                    
+                    '
