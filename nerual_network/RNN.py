@@ -6,45 +6,9 @@ from torch.utils.data import DataLoader
 import torchvision.transforms as Transforms
 import torchvision.datasets as datasets
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# modeling the neural network
-
-# in convolution Net we have demissios for 64x1x28x28 [batchs , in_channels,size_x,size_y]
-
-
-class CNN_Net(nn.Module):
-    def __init__(self, in_channel, out_channel, num_class):
-        super(CNN_Net, self).__init__()
-
-        self.conv1 = nn.Conv2d(in_channels=in_channel, out_channels=out_channel, kernel_size=(
-            3, 3), stride=(1, 1), padding=(1, 1))
-        self.pool = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
-        self.conv2 = nn.Conv2d(8, 16, kernel_size=(3, 3))
-        self.dense = nn.Linear(36*4*4, num_class)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        print(x.shape)
-        x = self.pool(x)
-        print(x.shape)
-        x = F.relu(self.conv2(x))
-        x = self.pool(x)
-        print(x.shape)
-        x = x.reshape(x.shape[0], -1)
-        print(x.shape)
-        x = self.dense(x)
-        print(x.shape)
-
-        return x
-
-# test input shape of the Tensor
-# model = CNN_Net(in_channel=1,out_channel=8,num_class=10)
-
-# x = torch.randn(64,1,28,28)
-
-
-# print(model(x))
- # loading the dataset
+## loading the dataset 
 training_set = datasets.MNIST(
     root='dataset/', train=True, transform=Transforms.ToTensor(), download=False)
 testing_set = datasets.MNIST(
@@ -53,34 +17,54 @@ training_laoding = DataLoader(
     dataset=training_set, batch_size=64, shuffle=True, num_workers=1)
 training_loading = DataLoader(
     dataset=testing_set, batch_size=64, shuffle=True, num_workers=1)
+### intialze the Hpyerparamter of model 
+input_size = 28
+hidden_size = 250 
+sequence_length = 28 
+hidden_layer = 6
+num_classes = 10 
 
-###### Hyperparamters 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-data_iter = iter(training_laoding)
-images , labels = next(data_iter )
-print(images.squeeze().shape)
-# x = torch.randn(4,1,4)
-# print(x.ndimension())
-# y = x.unsqueeze(0)
-# print(y.shape)
+### modeling the neural network RNN 
 
 
-exit()
+class RNN(nn.Module):
+    def __init__(self,input_size, hidden_size, hidden_layer,sequence_length, num_classes):
+        super(RNN,self).__init__() 
+        self.hidden_size = hidden_size
+        self.hidden_layer = hidden_layer
+        self.rnn = nn.RNN(input_size,hidden_size, hidden_layer, batch_first=True)  
+        self.dense = nn.Linear(hidden_size*sequence_length, num_classes)  
+
+    def forward(self, x):
+        # inrialize hidden state 
+        h0 = torch.empty(self.hidden_layer, x.size(0),self.hidden_size).to(device=device)
+        print(h0.shape)
+        #here nly we care about comes from hidden state  
+        out, _ = self.rnn(x,h0) 
+        print(out.shape)
+        out  = out.reshape(out.shape[0],-1)
+        print(out.shape)
+        out = self.dense(out)
+        print(out.shape)
+
+        return out 
+
 Epochs = 2
 learning_rate=0.001
 criterion = nn.CrossEntropyLoss()
-batch_size = 64
+#batch_size = 64
 #### intialzie the model 
-model = CNN_Net(in_channel=1, out_channel=8, num_class=10).to(device=device)
+model = RNN(input_size, hidden_size, hidden_layer, sequence_length, num_classes).to(device=device)
 optimizer= optim.Adam(model.parameters(),lr = learning_rate)
-
-
+x = torch.rand(64,1,28,28).squeeze(1).to(device=device)
+print(model(x))
+exit()
 if torch.cuda.is_available():
     for epoch in range(Epochs):
         for idx ,(images , labels) in enumerate(training_loading):
             num_correct = 0
             num_samples = 0 
-            images = images.to(device=device)
+            images = images.squeeze(1).to(device=device)
             labels = labels.to(device = device )
 
             ## here we done't need to reshape the tensoer to (64x784) 
@@ -96,6 +80,8 @@ if torch.cuda.is_available():
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+
+
 
 
 
