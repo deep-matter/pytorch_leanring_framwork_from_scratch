@@ -24,11 +24,24 @@ class EmptyOut:
 
 
 # # additional two 1D matrix
-tensor_x = torch.rand(2,2)
-tensor_y = torch.rand(2,2)
+# tensor_x = torch.rand(64,1,28,28)
+# outs_neural=tensor_x.unsqueeze(1)
+# print(tensor_x.shape)
+# print(outs_neural.shape)
 
-outs=torch.mul(tensor_x,tensor_y)
-print(outs)
+x = torch.rand(2,5) #n*m
+y=torch.rand(1,5) #m*p
+z=torch.mul(x,y) #====> n*p
+print(z)
+
+#tensor_y = torch.rand(2,2)
+
+# outs=torch.mul(tensor_x,tensor_y).sum()
+# outs_x=torch.mul(tensor_x,tensor_y)
+# outs_y=outs_x.reshape(outs_x.shape[0],-1)
+# re_size_shape=outs_x.view(2,-1)
+# print(outs_y)
+# print(re_size_shape.shape)
 # empty_tensor=EmptyOut(outs)
 
 # # multiplicatio 1D tensor

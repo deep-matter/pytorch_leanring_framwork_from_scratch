@@ -13,14 +13,18 @@ import torch
 
 x=torch.rand(3,5)
 y= torch.rand(3,5)
-conta=torch.cat((x,y),dim=1)
-print(conta.view(-1).squeeze(0).shape)
-## flatten to one dimessionality 
-print(conta.ndimension())
+print(x)
+print(x[1::1,1])
+# conta=torch.cat((x,y),dim=0)
+# print(conta.unsqueeze(-1).shape)
+# ## flatten to one dimessionality 
+# print(conta.ndimension())
 # batch=5
 # m= torch.rand(batch,2,3)
 # seq=m.squeeze(1)
 # print(seq.view(-1))
 # print(m.view(batch,-1).shape)
 # print(m.permute(0,2,1).shape)
-
+# img= torch.rand(64,1,28,28)
+# img1=img.reshape(img.shape[0],-1).squeeze(-1)
+# print(img1.shape)
