@@ -24,26 +24,22 @@ class CNN_Net(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
-        print(x.shape)
         x = self.pool(x)
-        print(x.shape)
         x = F.relu(self.conv2(x))
         x = self.pool(x)
-        print(x.shape)
         x = x.reshape(x.shape[0], -1)
-        print(x.shape)
         x = self.dense(x)
-        print(x.shape)
 
         return x
 
 # test input shape of the Tensor
-# model = CNN_Net(in_channel=1,out_channel=8,num_class=10)
+model = CNN_Net(in_channel=1,out_channel=8,num_class=10)
 
-# x = torch.randn(64,1,28,28)
+x = torch.randn(64,1,28,28)
 
 
-# print(model(x))
+print(model(x).shape)
+exit()
  # loading the dataset
 training_set = datasets.MNIST(
     root='dataset/', train=True, transform=Transforms.ToTensor(), download=False)
